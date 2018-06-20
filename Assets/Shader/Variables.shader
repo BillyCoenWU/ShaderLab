@@ -17,7 +17,7 @@
 	{
 		Tags
 		{
-			"RenderType"="Opaque"
+			"RenderType" = "Opaque"
 		}
 
         LOD 200
