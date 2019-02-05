@@ -1,4 +1,4 @@
-﻿Shader "RGSMS/Variables"
+﻿Shader ".RGSMS/Variables"
 {
 	Properties
 	{
