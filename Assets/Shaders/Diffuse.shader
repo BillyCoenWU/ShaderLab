@@ -23,7 +23,6 @@
 
 			struct v2f
 			{
-				//float4 pos : SV_POSITION; //usar caso seja trabalhado para Playstation 4, pois eles esperam q usem o SV_POSITION
 				float4 pos : POSITION;
 				float3 normal : NORMAL;
 				float2 uv : TEXTCOORD0;

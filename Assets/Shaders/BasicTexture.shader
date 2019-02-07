@@ -2,7 +2,7 @@
 {
 	Properties
 	{
-		_Color("Main Color:", Color) = (1,1,1,1)
+		[NoScaleOffset] // Material inspector will not show texture tiling/offset fields for texture properties with this attribute
 		_MainTexture("Main Texture:", 2D) = "White" {}
 	}
 
@@ -26,7 +26,6 @@
 				float2 uv : TEXTCOORD0;
 			};
 
-			fixed4 _Color;
 			sampler2D _MainTexture;
 
 			v2f vert(appdata IN)
@@ -39,7 +38,7 @@
 
 			fixed4 frag(v2f IN) : SV_TARGET
 			{
-				return _Color * tex2D(_MainTexture, IN.uv);
+				return tex2D(_MainTexture, IN.uv);
 			}
 
 			ENDCG
