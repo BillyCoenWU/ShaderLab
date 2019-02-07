@@ -13,9 +13,9 @@
 		_MainTexture("Main Texture:", 2D) = "White" {}
 	}
 
-	SubShader //Vc pode ter mais de 1 subshader para trabalhar com coisas mais "complexas" q deveriam funcionar para por exmeplo, sistemas mais complexos e "pesados"
+	SubShader //Vc pode ter varios subshaders no seu codigo e pode usar cada um para ter valores diferente para plataformas diferentes
 	{
-		Pass
+		Pass //Responsavel por pegar informacao e desenhar ela na tela, tambem é possivel ter mais de um pass dentro de um SubShader, cada pass é 1 drawcall extra
 		{
 			Tags
 			{
