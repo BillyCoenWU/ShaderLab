@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/GradientColorByTime"
+﻿Shader "RGSMS/Vertex/GradientColorByPosition"
 {
 	Properties
 	{
@@ -34,11 +34,12 @@
 
 			float4 frag(v2f IN) : COLOR
 			{
-				float4 gradientColor = float4(_Color.r, cos(_Time.y), sin(_Time.x), 1);
+				float4 gradientColor = _Color;
+
+				gradientColor *= float4(abs(sin(IN.position.x)), abs(cos(IN.position.y)), 1, 1);
 
 				return gradientColor;
 			}
-
 			ENDCG
 		}
 	}

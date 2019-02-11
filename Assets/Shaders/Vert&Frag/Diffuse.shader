@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/Diffuse"
+﻿Shader "RGSMS/Vertex/Diffuse"
 {
 	Properties
 	{

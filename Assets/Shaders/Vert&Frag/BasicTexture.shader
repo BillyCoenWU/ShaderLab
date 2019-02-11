@@ -1,9 +1,9 @@
-﻿Shader ".RGSMS/BasicTexture"
+﻿Shader "RGSMS/Vertex/BasicTexture"
 {
 	Properties
 	{
-		[NoScaleOffset] // Material inspector will not show texture tiling/offset fields for texture properties with this attribute
-		_MainTexture("Main Texture:", 2D) = "White" {}
+		_MainTexture("Main Texture:", 2D) = "white" {}
+													  
 	}
 
 	SubShader

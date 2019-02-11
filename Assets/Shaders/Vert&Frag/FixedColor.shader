@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/FixedColor" // ShaderLab Begin
+﻿Shader "RGSMS/Vertex/FixedColor" // ShaderLab Begin
 {
 	// Variables
 	Properties // "Custom Data" tudo aquilo que afeta o render, mas que é externo
@@ -6,10 +6,9 @@
 		_Color ("Main Color:", Color) = (1,1,1,1)
 	}
 
-	// Voce pode ter varios subshaders no seu codigo e pode usar cada um para, por exemplo:
-	// 1 - ter valores diferente para plataformas diferente
-	// 2 - trabalhar valores para GPUs com diferentes capacidades
-
+	// Voce pode ter varios SubShaders no seu codigo e pode usar cada um para trabalhar valores para GPUs com diferentes capacidades, isso é ótimo para diferentes plataformas
+	// A Unity vai tentar executar eles em ordem, até achar qual SubShader é compatível com placa gráfica.
+	// Assim voce pode ter versoes diferentes do mesmo shader em um só
 	SubShader
 	{
 		Pass // Responsavel por pegar informacao e desenhar ela na tela, tambem é possivel ter mais de um pass dentro de um SubShader, cada pass é 1 drawcall extra
@@ -37,12 +36,13 @@
 				float4 position : SV_POSITION; // Pode ser "POSITION", mas o SV_POSITION é importante para funcionar no Playstation 4 e DX9 (ou DX11, tem q confirmar)
 			};
 
+			// Toda variavel criada no campo properties tem q ser criada também dentro do SubShader para funcionar
 			fixed4 _Color;
 
 			v2f vert (appdata IN) // "BUILDA" seu objeto, é aqui q a posicao do vertex pode ser alterado para depois ser pintado na tela da forma correta
 			{
 				v2f o;
-				o.position = UnityObjectToClipPos(IN.vertex);
+				o.position = UnityObjectToClipPos(IN.vertex); // O appdata recebe a info da posição de um vertex no mundo, que ainda precisa ser convertida para coordenadas na tela
 				return o;
 			}
 

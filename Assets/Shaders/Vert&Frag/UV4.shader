@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/UV2"
+﻿Shader "RGSMS/Vertex/UV4"
 {
 	SubShader
 	{
@@ -13,7 +13,7 @@
 			struct appdata
 			{
 				float4 position : POSITION;
-				float4 uv1 : TEXCOORD1;
+				float4 uv3 : TEXCOORD3;
 			};
 
 			struct v2f
@@ -26,7 +26,7 @@
 			{
 				v2f o;
 				o.position = UnityObjectToClipPos(v.position);
-				o.uv = float4(v.uv1.xy, 0, 0);
+				o.uv = float4(v.uv3.xy, 0, 0);
 				return o;
 			}
 			

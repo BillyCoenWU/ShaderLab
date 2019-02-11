@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/UV4"
+﻿Shader "RGSMS/Vertex/InverseUV"
 {
 	SubShader
 	{
@@ -7,13 +7,13 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			
+
 			#include "UnityCG.cginc"
 
 			struct appdata
 			{
 				float4 position : POSITION;
-				float4 uv3 : TEXCOORD3;
+				float4 uv : TEXCOORD0;
 			};
 
 			struct v2f
@@ -22,24 +22,26 @@
 				float4 uv : TEXCOORD0;
 			};
 
-			v2f vert (appdata v)
+			v2f vert(appdata v)
 			{
 				v2f o;
 				o.position = UnityObjectToClipPos(v.position);
-				o.uv = float4(v.uv3.xy, 0, 0);
+				o.uv = float4(v.uv.xy, 0, 0);
 				return o;
 			}
-			
-			half4 frag (v2f i) : SV_Target
+
+			float4 frag(v2f i) : SV_Target
 			{
-				half4 c = frac(i.uv);
+				float4 c = frac(i.uv);
 
 				if (any(saturate(i.uv) - i.uv))
 				{
 					c.b = 0.5;
 				}
 
-				return c;
+				float4 inverse = float4(1.0 - c.r, 1.0 - c.g, 1.0 - c.b, 1);
+
+				return inverse;
 			}
 			ENDCG
 		}

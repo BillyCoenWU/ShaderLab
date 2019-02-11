@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/Normal"
+﻿Shader "RGSMS/Vertex/Normal Extrude"
 {
 	Properties
 	{

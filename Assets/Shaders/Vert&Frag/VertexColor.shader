@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/VertexColor"
+﻿Shader "RGSMS/Vertex/VertexColor"
 {
 	SubShader
 	{

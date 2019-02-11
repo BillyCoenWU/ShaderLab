@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/Fresnel"
+﻿Shader "RGSMS/Vertex/Fresnel"
 {
 	Properties
 	{

@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/FixedColorWithAlpha"
+﻿Shader "RGSMS/Vertex/GradientColorByTime"
 {
 	Properties
 	{
@@ -7,15 +7,8 @@
 
 	SubShader
 	{
-		tags
-		{
-			"Queue" = "Transparent"
-		}
-
 		Pass
 		{
-			Blend SrcAlpha OneMinusSrcAlpha
-
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -30,7 +23,7 @@
 				float4 position : SV_POSITION;
 			};
 
-			fixed4 _Color;
+			float4 _Color;
 
 			v2f vert(appdata IN)
 			{
@@ -39,10 +32,13 @@
 				return o;
 			}
 
-			fixed4 frag(v2f IN) : COLOR
+			float4 frag(v2f IN) : COLOR
 			{
-				return _Color;
+				float4 gradientColor = float4(_Color.r, cos(_Time.y), sin(_Time.x), 1);
+
+				return gradientColor;
 			}
+
 			ENDCG
 		}
 	}

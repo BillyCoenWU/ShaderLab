@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/UV1"
+﻿Shader "RGSMS/Vertex/UV1"
 {
 	SubShader
 	{
