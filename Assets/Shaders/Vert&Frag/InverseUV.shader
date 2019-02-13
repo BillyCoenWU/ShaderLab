@@ -39,9 +39,9 @@
 					c.b = 0.5;
 				}
 
-				float4 inverse = float4(1.0 - c.r, 1.0 - c.g, 1.0 - c.b, 1);
+				c = 1.0 - c;
 
-				return inverse;
+				return c;
 			}
 			ENDCG
 		}
