@@ -1,20 +1,21 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
-Shader ".RGSMS/Specular"
+﻿Shader "RGSMS/Vertex/Fresnel"
 {
 	Properties
 	{
-		_Color	("Main Color:", Color) = (1,1,1,1)
-		_SpecColor	("Specular Color:", Color) = (1,1,1,1)
+		_Color("Main Color:", Color) = (1,1,1,1)
+		_SpecColor("Specular Color:", Color) = (1,1,1,1)
+		_FresnelColor("Fresnel Color:", Color) = (1,1,1,1)
 
+		_FresnelPower("Fresnel Power:", Range(0.0, 3.0)) = 1.4
+		_FresnelScale("Fresnel Scale:", Range(0.0, 1.0)) = 1.0
 		_SpecShininess("Specular Shininess:", Range(1.0, 100.0)) = 2.0
 
-		_MainTexture ("Main Texture:", 2D) = "White" {}
+		_MainTexture("Main Texture:", 2D) = "White" {}
 	}
 
-	SubShader //Vc pode ter mais de 1 subshader para trabalhar com coisas mais "complexas" q deveriam funcionar para por exmeplo, sistemas mais complexos e "pesados"
+	SubShader //Vc pode ter varios subshaders no seu codigo e pode usar cada um para ter valores diferente para plataformas diferentes
 	{
-		Pass
+		Pass //Responsavel por pegar informacao e desenhar ela na tela, tambem é possivel ter mais de um pass dentro de um SubShader, cada pass é 1 drawcall extra
 		{
 			Tags
 			{
@@ -43,14 +44,20 @@ Shader ".RGSMS/Specular"
 				float4 posWorld : TEXCOORD1;
 			};
 
-			fixed4 _Color;
-			float4 _SpecColor;
 			float4 _LightColor0;
+
+			fixed4 _Color;
+			fixed4 _SpecColor;
+			fixed4 _FresnelColor;
+
 			float _SpecShininess;
+			float _FresnelPower;
+			float _FresnelScale;
+
 			sampler2D _MainTexture;
 			float4 _MainTexture_ST;
 
-			v2f vert (appdata i)
+			v2f vert(appdata i)
 			{
 				v2f o;
 				o.pos = UnityObjectToClipPos(i.vertex);
@@ -60,7 +67,7 @@ Shader ".RGSMS/Specular"
 				return o;
 			}
 
-			float4 frag (v2f i) : COLOR
+			fixed4 frag(v2f i) : COLOR
 			{
 				fixed4 texColor = tex2D(_MainTexture, i.texcoord);
 
@@ -79,9 +86,14 @@ Shader ".RGSMS/Specular"
 					specular = _LightColor0.rgb * _SpecColor.rgb * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _SpecShininess);
 				}
 
+				float3 _i = i.posWorld - _WorldSpaceCameraPos.xyz;
+				float refl = _FresnelScale * pow(1.0f + dot(normalize(_i), normalDirection), _FresnelPower);
+
 				float3 diffuseSpecular = diffuse + specular;
 
-				return float4(diffuseSpecular, 1) * texColor;
+				float4 finalColor = float4(diffuseSpecular, 1) * texColor;
+
+				return lerp(finalColor, _FresnelColor, refl);
 			}
 
 			ENDCG

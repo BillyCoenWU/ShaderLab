@@ -1,4 +1,4 @@
-﻿Shader ".RGSMS/Diffuse"
+﻿Shader "RGSMS/Vertex/Diffuse"
 {
 	Properties
 	{
@@ -18,35 +18,34 @@
 			{
 				float3 normal : NORMAL;
 				float4 vertex : POSITION;
-				float2 texcoord : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 			};
 
 			struct v2f
 			{
-				//float4 pos : SV_POSITION; //usar caso seja trabalhado para Playstation 4, pois eles esperam q usem o SV_POSITION
 				float4 pos : POSITION;
 				float3 normal : NORMAL;
-				float2 texcoord : TEXTCOORD0;
+				float2 uv : TEXTCOORD0;
 			};
 
 			fixed4 _Color;
 			float4 _LightColor0;
 			sampler2D _MainTexture;
 
-			v2f vert (appdata v)
+			v2f vert (appdata IN)
 			{
 				v2f o;
-				o.pos = UnityObjectToClipPos(v.vertex);
-				o.normal = mul(float4(v.normal, 0.0f), unity_ObjectToWorld).xyz;
-				o.texcoord = v.texcoord;
+				o.pos = UnityObjectToClipPos(IN.vertex);
+				o.normal = mul(float4(IN.normal, 0.0f), unity_ObjectToWorld).xyz; // mul = multiply a matrix by a column vector, row vector by a matrix, or matrix by a matrix
+				o.uv = IN.uv;
 				return o;
 			}
 
-			fixed4 frag (v2f v) : COLOR
+			fixed4 frag (v2f IN) : SV_TARGET /*: COLOR*/
 			{
-				fixed4 texColor = tex2D(_MainTexture, v.texcoord);
+				fixed4 texColor = tex2D(_MainTexture, IN.uv); // Metodo usado para combinar uma textura com a UV
 
-				float3 normalDirection = normalize(v.normal);
+				float3 normalDirection = normalize(IN.normal);
 				float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
 				float3 diffuse = _LightColor0.rgb * max(0.0, dot(normalDirection, lightDirection));
 
